@@ -165,6 +165,8 @@ int main3(void) {
     inicio = inserirInicio(inicio, 30);
     inicio = inserirInicio(inicio, 20);
     inicio = inserirInicio(inicio, 10);
+
+    printf("%d\n", inicio->valor); 
  
     return 0;
 }
