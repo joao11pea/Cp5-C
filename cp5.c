@@ -5,7 +5,7 @@
 // codigo para calcular o somatório de 1 até n usando recursão//
 
 #include <stdio.h>
-
+#include <stdlib.h>
 int somatorio(int n) {
     if (n == 1) {                
         return 1;
@@ -98,11 +98,121 @@ R:Cada função faz uma única chamada recursiva por nível e reduz n em 1, ent�
 Na memória também é O(n), porque as n chamadas ficam empilhadas ao mesmo tempo até o caso base retornar.
 
 */
+//PARTE 3 - Do ponteiro ao nó da lista//
+typedef struct No No;
+ 
+struct No {
+    int valor;
+    No *proximo;
+};
+/*
+1. É um ponteiro para o outro nó da lista, armazenando o endereço de memória do próximo nó.
+Quando for o último Nó da lista, o ponteiro vai apontar para "NULL", indicando que não há mais elementos na lista.
+ 
+2. "No" representa o tipo da estrutura que define um nó da lista.
+"No *" representa um ponteiro para um nó, ou seja, uma variável capaz de armazenar o endereço de memória de um No.
+"No *proximo" declara uma variável chamada proximo, que é um ponteiro para outro nó do tipo No.
+E no código, "valor" guarda o dado do No, enquanto "proximo" aponta para o próximo nó na lista encadeada.
+ 
+3.
+Usa-se -> para acessar os campos de uma struct por meio de um ponteiro.
+Por exemplo, se novo é um No *:
+ 
+novo->valor = 10;
+novo->proximo = NULL;
+ 
+O operador -> acessa diretamente os campos do nó apontado por novo. Que é igual a:
+ 
+(*novo).valor = 10;
+(*novo).proximo = NULL;
+ 
+Portanto, -> é a forma mais simples de acessar os membros de uma estrutura com ponteiro.
+ 
+*/
+//PARTE 4 -Criando uma lista e inserindo no início//
+typedef struct No No;
+ 
+struct No {
+    int valor;
+    No *proximo;
+};
+ 
+No *inserirInicio(No *inicio, int valor) {
+    // 1. Alocar um novo no
+    No *novo = malloc(sizeof(No));
+ 
+    // 2. Verificar se malloc retornou NULL
+    if (novo == NULL) {
+        printf("Erro ao alocar memoria.\n");
+        return inicio;
+    }
+ 
+    // 3. Guardar o valor
+    novo->valor = valor;
+ 
+    // 4. Fazer novo->proximo apontar para o inicio atual
+    novo->proximo = inicio;
+ 
+    // 5. Retornar o novo inicio
+    return novo;
+}
+ 
+int main3(void) {
+    // Criacao da lista vazia
+    No *inicio = NULL;
+ 
+    // Insercoes
+    inicio = inserirInicio(inicio, 30);
+    inicio = inserirInicio(inicio, 20);
+    inicio = inserirInicio(inicio, 10);
+ 
+    return 0;
+}
+ 
+ 
+/*
+1.
+Inicialmente, o ponteiro inicio aponta para NULL,
+representando uma lista vazia.
+ 
+Ao inserir 30, um novo no é criado. O campo proximo
+desse no aponta para NULL, que era o inicio anterior.
+Depois, inicio passa a apontar para o no que contem 30.
+ 
+Ao inserir 20, um novo no e criado e seu campo proximo
+aponta para o no que contem 30. Depois, inicio passa a
+apontar para o no que contem 20.
+ 
+Ao inserir 10, um novo no e criado e seu campo proximo
+aponta para o no que contem 20. Depois, inicio passa a
+apontar para o no que contem 10.
+ 
+ 
+2.
+inicio
+ 
+[10 | *] -> [20 | *] -> [30 | NULL]
+ 
+ 
+3.
+A insercao no inicio possui complexidade O(1) porque
+nao e necessario percorrer a lista.
+ 
+Independentemente da quantidade de nos existentes,
+a operacao realiza uma quantidade constante de passos:
+aloca o novo no, guarda o valor, faz o novo no apontar
+para o inicio atual e atualiza o inicio da lista.
+ 
+Por isso, o tempo da operacao nao aumenta conforme
+a quantidade de elementos da lista.
+*/
 
 int main(){
     printf("Parte 1 - Somatório:\n");
     main1();
     printf("Parte 2 - Vetor:\n");
     main2();
+    printf("Parte 3 - Lista Encadeada:\n");
+    main3(); 
     return 0;
 }
